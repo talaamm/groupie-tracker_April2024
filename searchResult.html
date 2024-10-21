@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>/* Reset some basic elements for consistency */
+body, h1, h2, form, input, img, section, div {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Main heading styling */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* Section heading styling */
+h2 {
+    margin-top: 20px;
+    font-size: 2em;
+    color: #333;
+}
+
+/* Main section styling */
+.mainSection {
+    margin: 20px auto;
+    width: 80%;
+    max-width: 1200px;
+}
+
+/* Flex container for search results */
+.flexContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Individual result card styling */
+.flexItem {
+    margin: 10px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.flexItem:hover {
+    transform: scale(1.05);
+}
+
+/* Image styling */
+.imgBorder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid #fff;
+    transition: border-color 0.3s ease-in-out;
+}
+/* Move h2 to the left */
+section h2 {
+    text-align: left;
+    margin-left: 3%;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+
+/* Matching color for each section */
+
+.mainSection {
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    padding: 0.3% 0.5% 1% 0.5%;
+}
+
+.imgBorder:hover {
+    border-color: #ccc;
+}
+
+/* Form and search input styling */
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    margin-right: 10px;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    background-color: #5cb85c;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background-color: #4cae4c;
+}
+
+/* Hide the number input */
+input[type="number"] {
+    display: none;
+}
+</style>
+</head>
+<body>
+    <h1>Search Results</h1>
+      
+    <form action="/search" method="post">
+        <label for="searchQuery">Search</label>
+        <input type="text" id="searchQuery" name="searchfor" placeholder="Enter search term ..." list="searchSuggestions" autocomplete="off">
+        <datalist id="searchSuggestions">
+            <!-- Suggestions  -->
+            {{range .all_Artists}}
+            <option value="{{.Name}}"> -name</option>
+            {{end}}
+  
+            {{range .all_Artists}}
+            <option value="{{.FirstAlbum}}"> -first Album {{.Name}}</option>
+            {{end}}
+  
+            {{range .all_Artists}}
+            <option value="{{.Creation}}"> -creation Date {{.Name}}</option>
+            {{end}}
+  
+            {{range .all_Artists}}
+            {{range .Members}}
+            <option value="{{.}}"> -member</option>
+            {{end}}{{end}}
+  
+          </datalist>
+        <button type="submit">Search</button>
+      </form>
+     
+ {{if .byName}}
+<section class="mainSection">
+    <h2>Results by Name:</h2>
+    <div class="flexContainer">
+    {{range .byName}}
+    <div class="flexItem">
+    <form action="/moreinfo" method="POST">
+    <input type="image" src="{{.Image}}" class="imgBorder">
+    <p><strong><i>{{.Name}}</i></strong> </p>
+    <input type="number" id="artistNumber" name="artistNumber" value="{{.Id}}" required hidden>
+    </div>
+    </form>
+    {{end}}
+    </div>
+    </section>
+    {{end}}
+
+    {{if .byFirstAlbum}}
+    <section class="mainSection">
+        <h2>Results by First Album:</h2>
+
+        <div class="flexContainer">
+        {{range .byFirstAlbum}}
+        <div class="flexItem">
+        <form action="/moreinfo" method="POST">
+        <input type="image" src="{{.Image}}" class="imgBorder">
+        <p><strong><i>{{.Name}}</i></strong> </p>
+        <input type="number" id="artistNumber" name="artistNumber" value="{{.Id}}" required hidden>
+        </div>
+        </form>
+        {{end}}
+        </div>
+        </section>
+        {{end}}
+
+        {{if .byMembers}}
+        <section class="mainSection">
+            <h2>Results by Members:</h2>
+
+            <div class="flexContainer">
+            {{range .byMembers}}
+            <div class="flexItem">
+            <form action="/moreinfo" method="POST">
+            <input type="image" src="{{.Image}}" class="imgBorder">
+            <p><strong><i>{{.Name}}</i></strong> </p>
+            <input type="number" id="artistNumber" name="artistNumber" value="{{.Id}}" required hidden>
+            </div>
+            </form>
+            {{end}}
+            </div>
+            </section>
+            {{end}}
+
+            {{if .byCreation}}
+            <section class="mainSection">
+                <h2>Results by Creation Date:</h2>
+
+                <div class="flexContainer">
+                {{range .byCreation}}
+                <div class="flexItem">
+                <form action="/moreinfo" method="POST">
+                <input type="image" src="{{.Image}}" class="imgBorder">
+                <p><strong><i>{{.Name}}</i></strong> </p>
+                <input type="number" id="artistNumber" name="artistNumber" value="{{.Id}}" required hidden>
+                </div>
+                </form>
+                {{end}}
+                </div>
+                </section>
+                {{end}}
+
+                {{if .byLocation}}
+                <section class="mainSection">
+                    <h2>Results by Location:</h2>
+
+                    <div class="flexContainer">
+                    {{range .byLocation}}
+                    <div class="flexItem">
+                    <form action="/moreinfo" method="POST">
+                    <input type="image" src="{{.Image}}" class="imgBorder">
+                    <p><strong><i>{{.Name}}</i></strong> </p>
+                    <input type="number" id="artistNumber" name="artistNumber" value="{{.Id}}" required hidden>
+                    </div>
+                    </form>
+                    {{end}}
+                    </div>
+                    </section>
+                    {{end}}
+                  
+                    {{if and (not .byName) (not .byFirstAlbum) (not .byMembers) (not .byCreation) (not .byLocation)}}
+                    <section class="mainSection">
+                        <h1>Nothing was found.</h1>
+                    </section>
+                 {{end}}
+</body>
+</html>
