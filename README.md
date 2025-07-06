@@ -2,6 +2,8 @@
 
 The Groupie Tracker project involves building a user-friendly website that interfaces with a given API to display information about various music artists, their concert dates, and locations. This project focuses on the client-server interaction, handling API requests and rendering the data on the frontend.
 
+Live Demo: https://groupie-tracker-x4fz.onrender.com/
+
 ## Overview
 
 The project receives an API consisting of four parts:
