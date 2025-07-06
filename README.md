@@ -32,9 +32,6 @@ The task is to create a website where users can visualize this information throu
 5. **Frontend (HTML)**:
    - The frontend uses HTML to display the data fetched from the backend in a visually appealing format.
 
-6. **Unit Testing**:
-   - Includes unit tests to ensure the correct behavior of the backend.
-
 ## Technologies Used
 - **Backend**: Go
 - **Frontend**: HTML
@@ -44,7 +41,7 @@ The task is to create a website where users can visualize this information throu
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://adam-jerusalem.nd.edu/git/taamm/groupie-tracker
+   git clone https://github.com/talaamm/groupie-tracker_April2024.git
    ```
 
 2. **Run the Backend**:
@@ -68,11 +65,6 @@ The task is to create a website where users can visualize this information throu
 ## Error Handling
 
 - The system is designed to ensure that errors are handled appropriately. The server and website will not crash unexpectedly, and the user will be provided with meaningful error messages in case of issues.
-
-## Contributors
-- **Tala Amm**
-- **Mhamad Admare**
-- **Amro Khweis**
 
 ## Status
 - The project has been successfully completed and passed all audits, including both the backend and frontend portions.
