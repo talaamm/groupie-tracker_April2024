@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -22,8 +23,16 @@ func main() {
 	http.HandleFunc("/", homepage)
 	http.HandleFunc("/moreinfo", hatInfo)
 	http.HandleFunc("/search", search)
-	fmt.Println("Server running on http://localhost:405")
-	http.ListenAndServe(":405", nil)
+	// fmt.Println("Server running on http://localhost:405")
+    // http.ListenAndServe(":405", nil)
+	// Get port from environment variable (required for deployment)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "405"
+	}
+	
+	fmt.Printf("Server running on http://localhost:%s\n", port)
+	http.ListenAndServe(":"+port, nil)
 }
 
 func search(w http.ResponseWriter, r *http.Request) {

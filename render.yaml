@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: groupie-tracker
+    runtime: docker
+    plan: free
+    buildCommand: docker build -t groupie-tracker .
+    startCommand: docker run -p $PORT:405 groupie-tracker
+    envVars:
+      - key: PORT
+        value: 405 
